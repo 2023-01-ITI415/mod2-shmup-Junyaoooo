@@ -11,14 +11,31 @@ public class Main : MonoBehaviour
     public GameObject[] preFabEnemies;
     public float enemyInsetDefault = 1.5f;
     public float enemySpawnPerSecond = 0.4f;
+    public float gameRestartDelay = 2.1f;
 
     private BoundsCheck bndCheck;
 
     private void Awake()
     {
-        S= this;
-        bndCheck=GetComponent<BoundsCheck>();
+        S = this;
+        bndCheck = GetComponent<BoundsCheck>();
         Invoke(nameof(SpawnEnemy), 1f / enemySpawnPerSecond);
+    }
+
+
+    void DelayedRestart()
+    {
+        Invoke(nameof(Restart), gameRestartDelay);
+    }
+
+    void Restart()
+    {
+        SceneManager.LoadScene("__Scene_0");
+    }
+
+    static public void HERO_DIED()
+    {
+        S.DelayedRestart();
     }
 
     public void SpawnEnemy() 

@@ -10,8 +10,25 @@ public class Hero : MonoBehaviour
     public float rollMult = -45;
     public float pitchMult = 30;
 
+
+    private GameObject lastTri = null;
     //[Header("Dynamic")]
-    public float shieldLevel = 1;
+    private float _shieldLevel = 1;
+
+    public float shieldLevel 
+    {
+        get { return (_shieldLevel); }
+        private set {
+            _shieldLevel = Mathf.Min(value, 4);
+            if (value < 0) 
+            {
+                Destroy(this.gameObject);
+                Main.HERO_DIED();
+            }
+        }
+    }
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -23,6 +40,29 @@ public class Hero : MonoBehaviour
         {
             Debug.LogError("Hero.Awake()-Attempted tp assign second Hero.S!");
         }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Transform roott = other.gameObject.transform.root;
+        GameObject gogo = roott.gameObject;
+        if (gogo==lastTri) 
+        {
+            return;
+        }lastTri= gogo;
+
+        Enemy enemyu= gogo.GetComponent<Enemy>();
+        if (enemyu != null)
+        {
+            shieldLevel--;
+            Destroy(gogo);
+        }
+        else 
+        {
+            Debug.LogWarning("Shield trigger hit by non-Enemy: "+gogo.name);
+        }
+        //Debug.Log("Shield trigger hit by: "+ gogo.gameObject.name);
     }
 
     // Update is called once per frame
