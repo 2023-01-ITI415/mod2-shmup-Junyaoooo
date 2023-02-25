@@ -35,6 +35,14 @@ public class BoundsCheck : MonoBehaviour
         cameraWidth = Camera.main.aspect * cameraHeight;
     }
 
+
+    public bool LocIs(eScreenLocs checkLoc) 
+    {
+        if (checkLoc == eScreenLocs.onscreen) return isOnScreen;
+        return ((screenLocs & checkLoc) == checkLoc);
+    }
+
+
     public bool isOnScreen 
     {
         get { return (screenLocs == eScreenLocs.onscreen); }
