@@ -31,6 +31,21 @@ public class Enemy : MonoBehaviour
         pos=temPos;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+       // Debug.Log("xasasa");
+        GameObject otherGoo = collision.gameObject;
+        if (otherGoo.GetComponent<ProjectileHero>() != null)
+        {
+            Destroy(otherGoo);
+            Destroy(gameObject);
+        }
+        else 
+        {
+            Debug.Log("xxxxx");
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

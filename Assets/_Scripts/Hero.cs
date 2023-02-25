@@ -9,7 +9,8 @@ public class Hero : MonoBehaviour
     public float speed = 30;
     public float rollMult = -45;
     public float pitchMult = 30;
-
+    public float projectileSpeed = 50;
+    public GameObject projectilePrefab;
 
     private GameObject lastTri = null;
     //[Header("Dynamic")]
@@ -77,5 +78,18 @@ public class Hero : MonoBehaviour
         transform.position = pos;
 
         transform.rotation=Quaternion.Euler(vAxis*pitchMult,hAxis*rollMult,0);
+
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            TempFire();
+        }
+    }
+
+    void TempFire() 
+    {
+        GameObject projGo = Instantiate<GameObject>(projectilePrefab);
+        projGo.transform.position= transform.position;
+        Rigidbody rigidB=projGo.GetComponent<Rigidbody>();
+        rigidB.velocity = Vector3.up * projectileSpeed;
     }
 }
